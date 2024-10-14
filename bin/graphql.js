@@ -14,8 +14,6 @@ async function start() {
 
     server.applyMiddleware({ app, path: '/graphql' });
 
-
-
     app.listen(3000, () => {
         console.log('server started')
     })
