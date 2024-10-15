@@ -1,3 +1,4 @@
+var getDB = require('../common/dbCon')
 var resolvers = {
     Query: {
         getStudentName: function () {
@@ -24,6 +25,17 @@ var resolvers = {
                 }
             ]
             return data;
+        },
+        getProducts: async function () {
+            try {
+                var db = await getDB()
+                var collection = db.collection("products")
+                var result = await collection.find({}).toArray()
+                return result
+            } catch (ex) {
+                console.error("Error", ex)
+                return []
+            }
         }
     },
     Mutation: {
@@ -32,8 +44,17 @@ var resolvers = {
             console.log(2, b)
             console.log(3, c)
             console.log(4, d)
-
             return 0
+        },
+        saveProduct: async function (a, payload, c, d) {
+            try {
+                var db = await getDB()
+                var collection = db.collection("products")
+                var result = await collection.insertOne(payload?.productInput)
+                return result;
+            } catch (ex) {
+                return ex.message
+            }
         }
     }
 }
