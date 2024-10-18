@@ -36,6 +36,18 @@ var resolvers = {
                 console.error("Error", ex)
                 return []
             }
+        },
+        handleLogin: async function (a, payload, c, d) {
+            console.log('payload', payload)
+            try {
+                var db = await getDB()
+                var collection = db.collection("vendors")
+                var result = await collection.find(payload?.data).toArray()
+                return result
+            } catch (ex) {
+                console.error("Error", ex)
+                return []
+            }
         }
     },
     Mutation: {

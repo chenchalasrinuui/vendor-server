@@ -14,6 +14,10 @@ var typeDefs = gql`
        category:String
        description:String
    }
+  input userInput{
+    uid:String
+    pwd:String
+  }
   type Product{
        name:String
        cost:Int
@@ -25,6 +29,7 @@ var typeDefs = gql`
         getPlayers:[String]
         getStudents:[Student]
         getProducts:[Product]
+        handleLogin(data:userInput):JSON
    }
 
    type Mutation{
