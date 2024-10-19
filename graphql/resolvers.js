@@ -1,4 +1,5 @@
 var getDB = require('../common/dbCon')
+var ObjectId = require('mongodb').ObjectId
 var resolvers = {
     Query: {
         getStudentName: function () {
@@ -51,12 +52,12 @@ var resolvers = {
         }
     },
     Mutation: {
-        saveStudent: function (a, payload, c, d) {
-            console.log(1, a)
-            console.log(2, b)
-            console.log(3, c)
-            console.log(4, d)
-            return 0
+        changePassword: async function (a, payload, c, d) {
+            console.log(11, payload)
+            const db = await getDB();
+            const collection = db.collection("vendors")
+            const result = await collection.updateOne({ _id: ObjectId.createFromHexString(payload?.id) }, { $set: { pwd: payload.newPwd } })
+            return result;
         },
         saveProduct: async function (a, payload, c, d) {
             try {

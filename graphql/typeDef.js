@@ -33,7 +33,7 @@ var typeDefs = gql`
    }
 
    type Mutation{
-        saveStudent(name:String,rno:Int):Int
+        changePassword(newPwd:String,id:String):JSON
         saveProduct(productInput:ProductInput):JSON
    }
 
