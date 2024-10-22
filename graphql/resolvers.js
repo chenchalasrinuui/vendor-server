@@ -56,6 +56,13 @@ var resolvers = {
             console.log(11, payload)
             const db = await getDB();
             const collection = db.collection("vendors")
+            const res = await collection.find({ _id: ObjectId.createFromHexString(payload?.id), pwd: payload?.pwd }).toArray()
+            if (!res?.length) {
+                return {
+                    message: 'Currnet password is wrong',
+                    errorCode: 2
+                }
+            }
             const result = await collection.updateOne({ _id: ObjectId.createFromHexString(payload?.id) }, { $set: { pwd: payload.newPwd } })
             return result;
         },
