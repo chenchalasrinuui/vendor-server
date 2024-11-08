@@ -1,6 +1,10 @@
 var getDB = require('../common/dbCon')
 var ObjectId = require('mongodb').ObjectId
+var fs = require('fs');
+var { GraphQLUpload } = require('graphql-upload')
+
 var resolvers = {
+    Upload: GraphQLUpload,
     Query: {
         getStudentName: function () {
             return "Sachin"
@@ -67,13 +71,25 @@ var resolvers = {
             return result;
         },
         saveProduct: async function (a, payload, c, d) {
+
             try {
+                const { file, productInput } = payload
+                const { createReadStream, filename } = await file;
+                // Specify the path where you want to save the uploaded file
+                const uploadFileName = Date.now() + '_' + filename
+                const stream = createReadStream();
+                const out = fs.createWriteStream(`./uploads/${uploadFileName}`);
+                stream.pipe(out);
                 var db = await getDB()
                 var collection = db.collection("products")
-                var result = await collection.insertOne(payload?.productInput)
+                const inputData = {
+                    ...productInput,
+                    filePath: `uploads/${uploadFileName}`
+                }
+                var result = await collection.insertOne(inputData)
                 return result;
             } catch (ex) {
-                return ex.message
+                return { message: ex.message }
             }
         }
     }
