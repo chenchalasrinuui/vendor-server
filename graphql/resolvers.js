@@ -91,6 +91,27 @@ var resolvers = {
             } catch (ex) {
                 return { message: ex.message }
             }
+        },
+        deleteProduct: async function (a, payload, c, d) {
+            try {
+                const { id, path } = payload?.data
+                const _id = ObjectId.createFromHexString(id)
+                const db = await getDB();
+                const collection = db.collection("products")
+                const res = await collection.deleteOne({ _id })
+                fs.unlink(path, () => {
+                    console.log(`${path} deleted`)
+                })
+                return res;
+            } catch (ex) {
+                console.log(ex);
+                return {
+                    message: ex?.message
+                }
+            } finally {
+
+            }
+
         }
     }
 }
