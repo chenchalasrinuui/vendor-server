@@ -14,6 +14,7 @@ var typeDefs = gql`
        cost:Int
        category:String
        description:String
+       vendor:String
    }
   input userInput{
     uid:String
