@@ -84,7 +84,7 @@ var resolvers = {
                 var collection = db.collection("products")
                 const inputData = {
                     ...productInput,
-                    filePath: `uploads/${uploadFileName}`
+                    file: `uploads/${uploadFileName}`
                 }
                 var result = await collection.insertOne(inputData)
                 return result;
@@ -112,7 +112,31 @@ var resolvers = {
 
             }
 
-        }
+        },
+        updateProduct: async function (a, payload, c, d) {
+
+            try {
+                const { file, productInput } = payload
+                const { id, name, cost, category, description, file: filePath } = productInput
+                const { createReadStream } = await file;
+                // Specify the path where you want to save the uploaded file
+                const uploadFileName = filePath?.split('/')[1]
+                const stream = createReadStream();
+                const out = fs.createWriteStream(`./uploads/${uploadFileName}`);
+                stream.pipe(out);
+                var db = await getDB()
+                var collection = db.collection("products")
+                const _id = ObjectId.createFromHexString(id)
+                const inputData = {
+                    name, cost, category, description
+
+                }
+                var result = await collection.updateOne({ _id }, { $set: inputData })
+                return result;
+            } catch (ex) {
+                return { message: ex.message }
+            }
+        },
     }
 }
 module.exports = resolvers

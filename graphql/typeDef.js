@@ -16,6 +16,14 @@ var typeDefs = gql`
        description:String
        vendor:String
    }
+  input UpdateProductInput{
+       id:String
+       name:String
+       cost:Int
+       category:String
+       description:String
+       file:String
+   }
   input userInput{
     uid:String
     pwd:String
@@ -26,7 +34,8 @@ var typeDefs = gql`
        cost:Int
        category:String
        description:String
-       filePath:String
+       file:String
+       vendor:String
    }
    input deleteInput{
      id:String
@@ -44,6 +53,7 @@ var typeDefs = gql`
         changePassword(pwd:String,newPwd:String,id:String):JSON
         saveProduct(file:Upload,productInput:ProductInput):JSON
         deleteProduct(data:deleteInput):JSON
+        updateProduct(file:Upload,productInput:UpdateProductInput):JSON
    }
 
 `
