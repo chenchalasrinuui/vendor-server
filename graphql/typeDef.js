@@ -22,7 +22,7 @@ var typeDefs = gql`
        cost:Int
        category:String
        description:String
-       file:String
+       filePath:String
    }
   input userInput{
     uid:String
