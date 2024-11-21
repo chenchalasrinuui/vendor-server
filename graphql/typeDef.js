@@ -45,7 +45,7 @@ var typeDefs = gql`
         getStudentName:String
         getPlayers:[String]
         getStudents:[Student]
-        getProducts:[Product]
+        getProducts(vendorId:String):[Product]
         handleLogin(data:userInput):JSON
    }
 

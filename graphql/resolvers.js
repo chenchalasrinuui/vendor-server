@@ -31,11 +31,11 @@ var resolvers = {
             ]
             return data;
         },
-        getProducts: async function () {
+        getProducts: async function (a, payload, c, d) {
             try {
                 var db = await getDB()
                 var collection = db.collection("products")
-                var result = await collection.find({}).toArray()
+                var result = await collection.find({ vendor: payload.vendorId }).toArray()
                 return result
             } catch (ex) {
                 console.error("Error", ex)
